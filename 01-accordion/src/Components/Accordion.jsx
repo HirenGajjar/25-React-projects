@@ -5,11 +5,16 @@ import "../index.css";
 function Accordion() {
   const [selected, setSelected] = useState();
   const [enableMulSel, setEnableMulSel] = useState(false);
+  // An array that stores multi items which are open
   const [mulSel, setMulSel] = useState([]);
 
   const mulSelectionFn = (id) => {
-setMulSel()
-
+    let copyMul = [...mulSel];
+    const indexOfCurrentId = copyMul.indexOf(id);
+    if (indexOfCurrentId === -1) copyMul.push(id);
+    else copyMul.splice(indexOfCurrentId, 1);
+    setMulSel(copyMul);
+    console.log(copyMul);
   };
 
   const handleSingleSelection = (id) => {
@@ -19,7 +24,7 @@ setMulSel()
     <>
       <div className="wrapper">
         <button className="btn" onClick={() => setEnableMulSel(!enableMulSel)}>
-          Multiples
+          Multiples {enableMulSel ? "on" : "off"}
         </button>
         <div className="accordion">
           {data && data.length > 0 ? (
@@ -36,11 +41,23 @@ setMulSel()
                   <h3>{data.question}</h3>
                   <span>+</span>
                 </div>
-                {selected === data.id ? (
+                {enableMulSel
+                  ? mulSel.indexOf(data.id) !== -1 && (
+                      <div className="answer">
+                        <h3>{data.answer}</h3>
+                      </div>
+                    )
+                  : selected === data.id && (
+                      <div className="answer">
+                        <h3>{data.answer}</h3>
+                      </div>
+                    )}
+
+                {/* {selected === data.id || mulSel.indexOf(data.id) !== -1 ? (
                   <div className="answer">
                     <h3>{data.answer}</h3>
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
             ))
           ) : (
