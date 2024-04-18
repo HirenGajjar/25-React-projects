@@ -14,7 +14,6 @@ function Accordion() {
     if (indexOfCurrentId === -1) copyMul.push(id);
     else copyMul.splice(indexOfCurrentId, 1);
     setMulSel(copyMul);
-    console.log(copyMul);
   };
 
   const handleSingleSelection = (id) => {
